@@ -14,7 +14,7 @@ import com.chocobot.tapbird.sprites.Bird
 import com.chocobot.tapbird.sprites.Tube
 
 class PlayState(gameStateManager: GameStateManager) : State(gameStateManager) {
-    private var bird = Bird(50f, 320f)
+    var bird = Bird(50f, 320f)
     private val backgroung = Texture("background.png")
     private val ground :Texture = Texture("ground.png")
     private var groundPos1 = Vector2(0f,0f)
@@ -57,9 +57,11 @@ class PlayState(gameStateManager: GameStateManager) : State(gameStateManager) {
                 gameStateManager.set(MenuState(gameStateManager))
             }
         }
-        if (bird.position.y <= ground.height+ GROUND_OFFSET){
+        /*if (bird.position.y >= camera.viewportHeight){
             gameStateManager.set(MenuState(gameStateManager))
         }
+
+         */
 
 
         camera.update()

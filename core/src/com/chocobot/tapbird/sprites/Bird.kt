@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector3
+import com.chocobot.tapbird.BirdNFT
 import com.chocobot.tapbird.BirdNFT.Companion.HEIGTH
 import com.chocobot.tapbird.BirdNFT.Companion.MOVEMENT
 
@@ -15,6 +16,7 @@ class Bird(
     var position: Vector3 = Vector3(x, y, 0f),
     var velocity: Vector3 = Vector3(0f, 1f, 0f),
     val gravity: Float = -10f,
+    val maxHeight : Float = BirdNFT.HEIGTH/2,
 
     var texture: Texture = Texture("birdanimation.png"),
     var birdAnimation: MyAnimation = MyAnimation(
@@ -33,6 +35,7 @@ class Bird(
         birdAnimation.update(deltaTime)
         when {
             position.y > 0 -> {
+
                 velocity.add(0f, gravity, 0f)
                 velocity.scl(deltaTime)
                 position.add(MOVEMENT * deltaTime, velocity.y, 0f)
@@ -46,6 +49,7 @@ class Bird(
 
 
 
+
     }
 
     fun getTexture(): TextureRegion {
@@ -53,8 +57,16 @@ class Bird(
     }
 
     fun jump() {
-        velocity.add(0f, 250f, 0f)
-        flap.play()
+        if (velocity.y >250f){
+            velocity.y = 50f
+        }
+        if (position.y <= maxHeight - texture.height){
+            velocity.add(0f, 250f, 0f)
+            flap.play()
+        }else{
+            velocity.y = 0f
+            position.y = maxHeight - texture.height
+        }
     }
 
     fun dispose() {
